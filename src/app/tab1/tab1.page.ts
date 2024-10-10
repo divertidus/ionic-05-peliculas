@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { MoviesService } from '../services/movies.service';
-import { provideHttpClient } from '@angular/common/http';
 import { Pelicula, RespuestaMovieDB } from '../Interfaces/interfaces';
-import { compassOutline } from 'ionicons/icons';
+import { NgFor } from '@angular/common';
+
 
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // para los swipper
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor],
 })
 export class Tab1Page implements OnInit {
 

@@ -1,17 +1,179 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <swiper-container>
+    <swiper-slide *ngFor="let pelicula of peliculasRecientes; let i=index ">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{pelicula.title}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <img [src]="pelicula.poster_path">
+        </ion-card-content>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+      </ion-card>
+    </swiper-slide>
+  </swiper-container>
+
+
 </ion-content>
+
+
+
+
+
+
+
+
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script> 
+  <swiper-container>
+    <swiper-slide><img src="https://www.centropkmn.com/pokes/global-link/1.png"></swiper-slide>
+    <swiper-slide><img src="https://www.centropkmn.com/pokes/global-link/4.png"></swiper-slide>
+    <swiper-slide><img src="https://www.centropkmn.com/pokes/global-link/7.png"></swiper-slide>
+  </swiper-container>
+
+  <swiper-container>
+    <swiper-slide *ngFor="let pelicula of peliculasRecientes; let i=index ">
+      <img [src]="'https://www.centropkmn.com/pokes/global-link/' + (i+1) + '.png'">
+    </swiper-slide> 
+  </swiper-container>
+
+  
+-->
+
+
+
+
+
+
+<!-- 
+Guía de implementación de Swiper en Ionic con Angular Standalone
+Introducción
+Esta guía te ayudará a implementar Swiper en tu aplicación Ionic con Angular 
+utilizando componentes standalone. Este enfoque moderno elimina la necesidad de módulos NgModule.
+Pasos para la implementación
+1. Instalación de dependencias
+Primero, asegúrate de tener las últimas versiones de Ionic y Angular:
+bashCopynpm install @ionic/angular@latest
+Luego, instala Swiper:
+bashCopynpm install swiper@latest
+2. Importar estilos de Swiper
+En tu archivo angular.json, añade los siguientes estilos:
+jsonCopy"styles": [
+  "src/theme/variables.scss",
+  "src/global.scss",
+  "node_modules/swiper/swiper-bundle.min.css",
+  "node_modules/@ionic/angular/css/ionic-swiper.css"
+]
+3. Configurar Swiper en el componente standalone
+En el componente donde quieras usar Swiper:
+typescriptCopyimport { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { register } from 'swiper/element/bundle';
+
+register(); // Registra los elementos de Swiper
+
+@Component({
+  selector: 'app-my-slider',
+  standalone: true,
+  imports: [IonicModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `
+    <swiper-container [options]="swiperOptions">
+      <swiper-slide>Slide 1</swiper-slide>
+      <swiper-slide>Slide 2</swiper-slide>
+      <swiper-slide>Slide 3</swiper-slide>
+    </swiper-container>
+  `,
+  styleUrls: ['./my-slider.component.scss']
+})
+export class MySliderComponent {
+  swiperOptions = {
+    slidesPerView: 1,
+    pagination: true
+  };
+}
+4. Usar el componente en tu aplicación
+En el componente principal de tu aplicación (por ejemplo, app.component.ts):
+typescriptCopyimport { Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { MySliderComponent } from './my-slider.component';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [IonicModule, MySliderComponent],
+  template: `
+    <ion-app>
+      <ion-content>
+        <app-my-slider></app-my-slider>
+      </ion-content>
+    </ion-app>
+  `
+})
+export class AppComponent { }
+5. Configuración de la aplicación principal
+En tu main.ts:
+typescriptCopyimport { enableProdMode, importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { RouteReuseStrategy, provideRouter } from '@angular/router';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { routes } from './app/app.routes';
+import { AppComponent } from './app/app.component';
+import { environment } from './environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    importProvidersFrom(IonicModule.forRoot({})),
+    provideRouter(routes),
+  ],
+});
+6. Estilos personalizados (opcional)
+Puedes añadir estilos personalizados en el archivo SCSS de tu componente:
+scssCopyswiper-container {
+  --swiper-pagination-bullet-inactive-color: var(--ion-color-step-200, #cccccc);
+  --swiper-pagination-color: var(--ion-color-primary, #3880ff);
+  --swiper-pagination-progressbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.25);
+  --swiper-scrollbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.1);
+  --swiper-scrollbar-drag-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.5);
+}
+
+swiper-slide {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  text-align: center;
+  box-sizing: border-box;
+}
+Notas adicionales
+
+Al usar componentes standalone, no necesitas un archivo *.module.ts.
+El CUSTOM_ELEMENTS_SCHEMA se aplica directamente en el decorador del componente.
+La función register() de Swiper se llama para registrar los elementos personalizados de Swiper.
+Las opciones de Swiper se pasan directamente al elemento swiper-container mediante property binding.
+
+Resolución de problemas comunes
+
+Error: Can't bind to 'options' since it isn't a known property of 'swiper-container'
+Solución: Asegúrate de haber añadido CUSTOM_ELEMENTS_SCHEMA en el decorador de tu componente.
+Los estilos no se aplican correctamente
+Solución: Verifica que los archivos CSS de Swiper estén correctamente importados en angular.json.
+Swiper no funciona en modo de producción
+Solución: Asegúrate de que estás llamando a register() de Swiper 
+correctamente y que no hay problemas de tree-shaking en tu configuración de producción.
+
+Recuerda consultar la documentación oficial de Swiper para obtener información más detallada 
+sobre las opciones y funcionalidades disponibles para los elementos web de Swiper
+-->
