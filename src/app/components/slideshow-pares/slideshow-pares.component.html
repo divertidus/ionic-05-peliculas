@@ -1,0 +1,73 @@
+<swiper-container [slidesPerView]=swiperOpts.slidesPerView [attr.free-mode]="freeModeString"
+  [spaceBetween]=swiperOpts.spaceBetween>
+  <!-- Se comenta porque se usará el nuevo con el pipe -->
+  <!-- <swiper-slide *ngFor="let pelicula of peliculasRecientesEnComponentePares; let i=index "> -->
+
+  <swiper-slide *ngFor="let paresPeliculas of peliculasRecientesEnComponentePares | pares">
+
+    <!-- Usaremos el array de peliculas y lo transformaremos en pares. Para ello vamos a crear un pipe "pares"
+ La idea es tomar la informacion del array y hacer arreglos de 2 y 2 en vez de arreglos de 1
+ El codigo se proporciona en el curso. Dejo explicacion completa del mismo obtenida de chat GPT en pares.pipe.ts
+
+ Ahora la idea es que cada fila muestre uno de los 2 pares del cada elemento del array. Pero ellos deben 
+ seguir usando el pipe imagen para que se vean como siempre.
+ 
+ ¡¡ El nuevo pipe se aplica al ngFor de arriba !!
+
+ De paso para ser mas claros cambiamos el nombre de la variable let que guardaba la pelicula a paresPeliculas
+ Si imprimirmos por consola desde el pipe el nuevo array veremos que ahora tenemos 10 elementos y no 20.
+ Ademas cada uno tendrá dos elementos dentro. Esto hace que ahora nuestras imagenes no se vean porque ya no se
+ accede igual, debo decirle  que de los 2 pares el primero acceda al primero y el segundo al segundo
+ Por ejemplo con 
+ <img class="poster" [src]="paresPeliculas[0].poster_path || '' | imagen">
+ y
+ <img class="poster" [src]="paresPeliculas[1].poster_path || '' | imagen">
+
+ Pero tambien podemos no duplicar la estructura y hacer otro NgFor que se repetirá 2 veces ( por cada elemento en cada array)
+ ambas formas sirven. La segunda nos permite modificar menos codigo. Pongo ambas y comento una.
+-->
+
+
+    <ion-row>
+      <ion-col size="12" *ngFor="let pelicula of paresPeliculas">
+        <ion-card>
+          <img class="poster" [src]="pelicula.poster_path || '' | imagen">
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+
+    <!-- /*FORMA 1*/ -->
+    <!-- 
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <img class="poster" [src]="paresPeliculas[0].poster_path || '' | imagen">
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <img class="poster" [src]="paresPeliculas[1].poster_path || '' | imagen">
+        </ion-card>
+      </ion-col>
+    </ion-row>
+ -->
+
+    <!-- /*FORMA 2*/ -->
+    <!-- 
+    <ion-row>
+      <ion-col size="12" *ngFor="let pelicula of paresPeliculas">
+        <ion-card>
+          <img class="poster" [src]="pelicula.poster_path || '' | imagen">
+        </ion-card>
+      </ion-col>
+    </ion-row>
+     -->
+
+
+  </swiper-slide>
+</swiper-container>

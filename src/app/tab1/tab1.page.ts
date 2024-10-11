@@ -8,6 +8,7 @@ import { ImagenPipe } from "../pipes/imagen.pipe";
 import { register } from 'swiper/element/bundle';
 import { SlideshowBackdropComponent } from "../components/slideshow-backdrop/slideshow-backdrop.component";
 import { SlideshowPosterComponent } from '../components/slideshow-poster/slideshow-poster.component';
+import { SlideshowParesComponent } from "../components/slideshow-pares/slideshow-pares.component";
 
 register();  // Esto asegura que Swiper se registre correctamente como componente web
 
@@ -20,7 +21,7 @@ register();  // Esto asegura que Swiper se registre correctamente como component
   styleUrls: ['tab1.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // para los swipper
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor, SlideshowPosterComponent, ImagenPipe, SlideshowBackdropComponent],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor, SlideshowPosterComponent, ImagenPipe, SlideshowBackdropComponent, SlideshowParesComponent],
 })
 export class Tab1Page implements OnInit {
 
@@ -71,6 +72,12 @@ export class Tab1Page implements OnInit {
 
     //  this.moviesService.getPopulars().subscribe(console.log);
     // SOlO MODIFICO UN PAR DE COSAS Y POPULARES LISTO
+    this.moviesService.getPopulars().subscribe((resp: RespuestaMovieDB) => {
+      console.log('Respuesta para peliculasPopulares en tab1.ts', resp);
+      this.peliculasPopulares = resp.results;
+      // console.log(this.peliculasPopulares)
+    });
+
     this.moviesService.getPopulars().subscribe((resp: RespuestaMovieDB) => {
       console.log('Respuesta para peliculasPopulares en tab1.ts', resp);
       this.peliculasPopulares = resp.results;
