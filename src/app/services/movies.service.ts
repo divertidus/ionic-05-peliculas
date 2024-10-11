@@ -57,6 +57,14 @@ export class MoviesService {
     return this.ejecutarQuery<RespuestaMovieDB>(`/discover/movie?primary_release_date.gte=${fechaInicio}&rimary_release_date.lte=${fechaFinal}`);
 
   }
+
+  getPopulars() {
+
+    // eso del sort se ve en https://developer.themoviedb.org/reference/discover-movie
+    const query = `/discover/movie?sort_by=popularity.desc`
+
+    return this.ejecutarQuery<RespuestaMovieDB>(query);
+  }
 }
 
 /*Respecto a las const de hoy de ultimoDia: 

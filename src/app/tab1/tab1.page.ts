@@ -29,6 +29,7 @@ export class Tab1Page implements OnInit {
   // Eso lo hago en el ngOnInit  con "this.peliculasRecientes = resp.results;"
 
   peliculasRecientes: Pelicula[] = [];
+  peliculasPopulares: Pelicula[] = [];
 
   swiperOpts = {
     slidesPerView: 1.2,   // Muestra 1.1 diapositivas
@@ -48,7 +49,7 @@ export class Tab1Page implements OnInit {
 
   ngOnInit(): void {
     // Con esto imprimo en consola lo devuelto
-    this.moviesService.getFeature().subscribe(console.log);
+    // this.moviesService.getFeature().subscribe(console.log);
 
     // Con esto imprimo en consola lo devuelto pero de otra forma y no se de que me vale  (ver comentarios abajo de todo)
     // Ahora,tras modificar el servicio para tipar getFeature a   return this.http.get<RespuestaMovieDB>(url bla bla......)
@@ -63,10 +64,20 @@ export class Tab1Page implements OnInit {
       */
     //this.moviesService.getFeature().subscribe((resp) => { 
     this.moviesService.getFeature().subscribe((resp: RespuestaMovieDB) => {
-      console.log('Respuesta en tab1.ts', resp);
+      // console.log('Respuesta para peliculasRecientes en tab1.ts', resp);
       this.peliculasRecientes = resp.results;
       // console.log(this.peliculasRecientes)
     });
+
+    //  this.moviesService.getPopulars().subscribe(console.log);
+    // SOlO MODIFICO UN PAR DE COSAS Y POPULARES LISTO
+    this.moviesService.getPopulars().subscribe((resp: RespuestaMovieDB) => {
+      console.log('Respuesta para peliculasPopulares en tab1.ts', resp);
+      this.peliculasPopulares = resp.results;
+      // console.log(this.peliculasPopulares)
+    });
+
+
 
   }
 
