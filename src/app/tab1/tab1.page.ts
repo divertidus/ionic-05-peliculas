@@ -1,9 +1,15 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { MoviesService } from '../services/movies.service';
 import { Pelicula, RespuestaMovieDB } from '../Interfaces/interfaces';
 import { NgFor } from '@angular/common';
+import { ImagenPipe } from "../pipes/imagen.pipe";
+
+import { register, SwiperContainer } from 'swiper/element/bundle';
+
+register();  // Esto asegura que Swiper se registre correctamente como componente web
+
 
 
 
@@ -13,7 +19,7 @@ import { NgFor } from '@angular/common';
   styleUrls: ['tab1.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // para los swipper
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor, ImagenPipe],
 })
 export class Tab1Page implements OnInit {
 
@@ -22,6 +28,16 @@ export class Tab1Page implements OnInit {
   // Eso lo hago en el ngOnInit  con "this.peliculasRecientes = resp.results;"
 
   peliculasRecientes: Pelicula[] = [];
+
+  swiperOpts = {
+    slidesPerView: 1.2,   // Muestra 1.1 diapositivas
+    freeMode: true,       // Activa el modo libre para deslizar sin ajustar
+  };
+
+  // Getter para convertir el valor booleano a string
+  get freeModeString(): string {
+    return this.swiperOpts.freeMode.toString();
+  }
 
   constructor(private moviesService: MoviesService) {
 
@@ -50,8 +66,6 @@ export class Tab1Page implements OnInit {
       this.peliculasRecientes = resp.results;
       console.log(this.peliculasRecientes)
     });
-
-
 
   }
 
