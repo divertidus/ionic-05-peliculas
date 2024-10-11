@@ -1,0 +1,11 @@
+<swiper-container [slidesPerView]=swiperOpts.slidesPerView [attr.free-mode]="freeModeString">
+  <swiper-slide *ngFor="let pelicula of peliculasRecientesEnComponentePoster; let i=index ">
+
+    <ion-card>
+
+      <img class="poster" [src]="pelicula.poster_path || '' | imagen">
+
+    </ion-card>
+
+  </swiper-slide>
+</swiper-container>

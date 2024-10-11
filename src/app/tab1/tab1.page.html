@@ -1,31 +1,22 @@
 <ion-content>
 
-  <!-- <swiper-container [slidesPerView]=swiperOpts.slidesPerView free-mode="true"> -->
-  <!-- Aunque lo de encima funciona. De esta forma mantengo el dinamismo.Basicmament 
-   el free-mode es asi y no freeMode y espera un string y no un boolean. Ver codigo  -->
-  <swiper-container [slidesPerView]=swiperOpts.slidesPerView [attr.free-mode]="freeModeString">
-    <swiper-slide *ngFor="let pelicula of peliculasRecientes; let i=index ">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <h3>Peliculas Nuevas</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <app-slideshow-backdrop [peliculasRecientesEnComponenteBackdrop]="peliculasRecientes"></app-slideshow-backdrop>
 
-      <ion-card>
-
-        <ion-card-header>
-          <ion-card-title>{{pelicula.title}}</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-          <!-- no me vale   --> <!-- <img [src]="pelicula.backdrop_path | imagen"> -->
-          <!-- no me vale   --> <!-- <img [src]="pelicula.backdrop_path | imagen:'w500'"> -->
-
-          <!-- si vale -->
-          <!--  <img [src]="pelicula.backdrop_path ? (pelicula.backdrop_path | imagen) : 'assets/default-image.jpg'"> -->
-          <!-- si vale --> <!-- <img [src]="pelicula.backdrop_path || '' | imagen"> -->
-          <img [src]="pelicula.backdrop_path || '' | imagen">
-        </ion-card-content>
-
-      </ion-card>
-
-    </swiper-slide>
-  </swiper-container>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <h3>Cartelera</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <app-slideshow-poster [peliculasRecientesEnComponentePoster]="peliculasRecientes"> </app-slideshow-poster>
 
 
 </ion-content>

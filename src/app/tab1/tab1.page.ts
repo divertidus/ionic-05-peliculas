@@ -1,12 +1,13 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { MoviesService } from '../services/movies.service';
 import { Pelicula, RespuestaMovieDB } from '../Interfaces/interfaces';
 import { NgFor } from '@angular/common';
 import { ImagenPipe } from "../pipes/imagen.pipe";
-
-import { register, SwiperContainer } from 'swiper/element/bundle';
+import { register } from 'swiper/element/bundle';
+import { SlideshowBackdropComponent } from "../components/slideshow-backdrop/slideshow-backdrop.component";
+import { SlideshowPosterComponent } from '../components/slideshow-poster/slideshow-poster.component';
 
 register();  // Esto asegura que Swiper se registre correctamente como componente web
 
@@ -19,7 +20,7 @@ register();  // Esto asegura que Swiper se registre correctamente como component
   styleUrls: ['tab1.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // para los swipper
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor, ImagenPipe],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor, SlideshowPosterComponent, ImagenPipe, SlideshowBackdropComponent],
 })
 export class Tab1Page implements OnInit {
 
@@ -62,13 +63,12 @@ export class Tab1Page implements OnInit {
       */
     //this.moviesService.getFeature().subscribe((resp) => { 
     this.moviesService.getFeature().subscribe((resp: RespuestaMovieDB) => {
-      console.log('Respuesta', resp);
+      console.log('Respuesta en tab1.ts', resp);
       this.peliculasRecientes = resp.results;
-      console.log(this.peliculasRecientes)
+      // console.log(this.peliculasRecientes)
     });
 
   }
-
 
 }
 

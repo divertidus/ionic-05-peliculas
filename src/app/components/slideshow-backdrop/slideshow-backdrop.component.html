@@ -1,0 +1,17 @@
+<swiper-container [slidesPerView]=swiperOpts.slidesPerView [attr.free-mode]="freeModeString">
+  <swiper-slide *ngFor="let pelicula of peliculasRecientesEnComponenteBackdrop; let i=index ">
+
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title>{{pelicula.title}}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <img [src]="pelicula.backdrop_path || '' | imagen">
+      </ion-card-content>
+
+    </ion-card>
+
+  </swiper-slide>
+</swiper-container>

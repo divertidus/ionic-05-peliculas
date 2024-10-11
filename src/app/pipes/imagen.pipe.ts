@@ -22,7 +22,7 @@ export class ImagenPipe implements PipeTransform {
     // Pero si existe la imagen creamos una constante con la URL montada
     // const imagenUrl = URL + '/' + size + '/' + img
     const imagenUrl = `${URL}/${size}${img}`
-    console.log(imagenUrl)
+    //console.log(imagenUrl)
 
     return imagenUrl;
   }
