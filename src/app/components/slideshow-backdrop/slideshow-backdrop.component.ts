@@ -4,6 +4,8 @@ import { ImagenPipe } from "../../pipes/imagen.pipe";
 import { NgFor } from '@angular/common';
 import { Pelicula } from 'src/app/Interfaces/interfaces';
 import { register } from 'swiper/element/bundle';
+import { ModalController } from '@ionic/angular'; // A mano porque no me lo detectaba
+import { DetalleComponent } from '../detalle/detalle.component';
 
 register();  // Esto asegura que Swiper se registre correctamente como componente web
 
@@ -12,6 +14,7 @@ register();  // Esto asegura que Swiper se registre correctamente como component
   templateUrl: './slideshow-backdrop.component.html',
   styleUrls: ['./slideshow-backdrop.component.scss'],
   standalone: true,
+  providers: [ModalController],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [IonCardHeader, IonCard, IonCardTitle, IonCardContent, ImagenPipe, NgFor]
 })
@@ -19,10 +22,20 @@ export class SlideshowBackdropComponent implements OnInit {
 
   @Input() peliculasRecientesEnComponenteBackdrop: Pelicula[] = [];
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { } //Inyectamos el modalController
 
-  ngOnInit() { 
+  ngOnInit() {
     console.log('Peliculas recibidas en SlideshowPosterComponent:', this.peliculasRecientesEnComponenteBackdrop);
+  }
+
+  async mostrarDetalles(idPelicula: number) {
+    const modal = await this.modalCtrl.create({
+      component: DetalleComponent,
+      componentProps: {
+        idPelicula
+      }
+    });
+    modal.present();
   }
 
   swiperOpts = {
@@ -31,7 +44,7 @@ export class SlideshowBackdropComponent implements OnInit {
   };
 
   // Getter para convertir el valor booleano a string
-  get freeModeString(): string {   
+  get freeModeString(): string {
     return this.swiperOpts.freeMode.toString();
   }
 

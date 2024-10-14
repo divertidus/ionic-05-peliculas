@@ -1,4 +1,7 @@
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component, OnInit, CUSTOM_ELEMENTS_SCHEMA,
+  Input, Output, EventEmitter, ViewChild, ElementRef
+} from '@angular/core';
 import { IonCardHeader, IonCard, IonCardTitle, IonCardContent } from "@ionic/angular/standalone";
 import { ImagenPipe } from "../../pipes/imagen.pipe";
 import { NgFor } from '@angular/common';
@@ -8,6 +11,8 @@ import { ParesPipe } from "../../pipes/pares.pipe";
 import { addIcons } from 'ionicons';
 import * as todosLosIconos from 'ionicons/icons';
 import Swiper from 'swiper';
+import { ModalController } from '@ionic/angular';
+import { DetalleComponent } from '../detalle/detalle.component';
 
 register() // Esto asegura que Swiper se registre correctamente como componente web
 
@@ -16,6 +21,7 @@ register() // Esto asegura que Swiper se registre correctamente como componente 
   templateUrl: './slideshow-pares.component.html',
   styleUrls: ['./slideshow-pares.component.scss'],
   standalone: true,
+  providers: [ModalController],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [IonCardHeader, IonCard, IonCardTitle, IonCardContent, ImagenPipe, NgFor, ParesPipe]
 })
@@ -27,13 +33,29 @@ export class SlideshowParesComponent implements OnInit {
   @Input() peliculasRecientesEnComponentePares: Pelicula[] = [];
   @Output() eventoCargarMas = new EventEmitter();
 
-  constructor() { addIcons(todosLosIconos) }
+  constructor(private modalCtrl: ModalController) { addIcons(todosLosIconos) }
 
   swiperInstance!: Swiper;
 
   ngOnInit() {
 
   }
+
+  async mostrarDetalles(idPelicula: number) {
+
+    const modal = await this.modalCtrl.create({
+      component: DetalleComponent,
+      componentProps: {
+        idPelicula
+      }
+    })
+    modal.present();
+  }
+
+
+
+
+
 
   swiperOpts = {
     slidesPerView: 3.2,   // Muestra 1.1 diapositivas
