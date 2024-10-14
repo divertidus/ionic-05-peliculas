@@ -18,7 +18,9 @@ register();  // Esto asegura que Swiper se registre correctamente como component
   styleUrls: ['tab1.page.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // para los swipper
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor, SlideshowPosterComponent, ImagenPipe, SlideshowBackdropComponent, SlideshowParesComponent],
+  imports: [IonHeader, IonToolbar, IonTitle, 
+    IonContent, ExploreContainerComponent, NgFor, SlideshowPosterComponent, 
+    ImagenPipe, SlideshowBackdropComponent, SlideshowParesComponent],
 })
 export class Tab1Page implements OnInit {
   

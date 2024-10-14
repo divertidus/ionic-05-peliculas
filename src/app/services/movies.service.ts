@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RespuestaMovieDB } from '../Interfaces/interfaces';
+import { ActoresPelicula, DetallesPelicula, RespuestaMovieDB } from '../Interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 
 
@@ -73,6 +73,34 @@ export class MoviesService {
 
     return this.ejecutarQuery<RespuestaMovieDB>(query);
   }
+
+  getPeliculaDetalles(idPelicula: number) {
+
+    const query = `/movie/${idPelicula}?a=1`
+    /*  ESO DE a=1 no hace nada. Es para tener
+     un argumento vacio para que al no ser el primero el programa le adjunte el resto con &
+     ya que el primero siempre debe llevar ? y no & y por como tenemos arriba definido
+ 
+     private ejecutarQuery<T>(query: string) {
+       query = URL + query;
+   
+       query = query + `&api_key=${apiKey}&language=es&include_image_language=es`
+       // console.log(query) // Para comprobar que la URl está siendo correcta
+   
+       return this.http.get<T>(query) //importante aqui la <T> en el return
+     }
+ 
+     nos daria errores sino.*/
+
+    return this.ejecutarQuery<DetallesPelicula>(query);
+
+  }
+
+  getPeliculaActores(idPelicula: number) {
+    const query = `/movie/${idPelicula}/credits?a=1`
+    return this.ejecutarQuery<ActoresPelicula>(query);
+  }
+
 }
 
 /*Respecto a las const de hoy de ultimoDia: 
