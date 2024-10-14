@@ -12,9 +12,6 @@ import { SlideshowParesComponent } from "../components/slideshow-pares/slideshow
 
 register();  // Esto asegura que Swiper se registre correctamente como componente web
 
-
-
-
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -24,6 +21,7 @@ register();  // Esto asegura que Swiper se registre correctamente como component
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, NgFor, SlideshowPosterComponent, ImagenPipe, SlideshowBackdropComponent, SlideshowParesComponent],
 })
 export class Tab1Page implements OnInit {
+  
 
   // Declaro un array que será del tipo que definimos en la interfaz. De modo que puedo 
   // guardar aqui la resp.results porque es eso, el array de peliculas que me trae la respuesta.
@@ -45,8 +43,6 @@ export class Tab1Page implements OnInit {
   constructor(private moviesService: MoviesService) {
 
   }
-
-
 
   ngOnInit(): void {
     // Con esto imprimo en consola lo devuelto
@@ -72,20 +68,39 @@ export class Tab1Page implements OnInit {
 
     //  this.moviesService.getPopulars().subscribe(console.log);
     // SOlO MODIFICO UN PAR DE COSAS Y POPULARES LISTO
+    //UPDATE, refactorizo creando el metodo getPopulares para reutilizar.
+    this.getPopulares();
+
+
+  }
+
+  metodoCargarMasEnTab1() {
+    this.getPopulares();
+  }
+
+  /*Realizado desde el momento en el que quiero reutilizalo. En concreto
+  ahora quiero poder obtener la página que toque.
+  Para ello debo mandar un argumento page al servicio.
+  Vamos pues a modificar el servicio en movies.service getPopulares
+  Crearemos una propuiedad privada popularesPage = 0 y lo iremos incrementando allí
+  */
+  getPopulares() {
     this.moviesService.getPopulars().subscribe((resp: RespuestaMovieDB) => {
-      console.log('Respuesta para peliculasPopulares en tab1.ts', resp);
-      this.peliculasPopulares = resp.results;
+      //console.log('Respuesta para peliculasPopulares en tab1.ts', resp);
+      this.peliculasPopulares.push(...resp.results)
+      // this.peliculasPopulares = resp.results; // Con esto en peliculasPopulares guardo solo lo que trae resp.results
+      // pero con this.peliculasPopulares.push(...resp.results) lo que hago es añadirlo y se mantiene lo anterior.
+      // Pero no puedo asignarlo directamente porque puede dar error y no verse nada por cosa del pipe que usa para los ParesPipe.
+      // Para ello simplemente crearemos una constante intermedia que guarde la informacion haciendo:
+      // No uso push, sino que desconpongo los arrays y los concateno mediante esa , entre los elementos de los corchetes
+      // const arrayPeliculasTemporal = [...this.peliculasPopulares, ...resp.results] 
+      // this.peliculasPopulares = arrayPeliculasTemporal;
+      // NOTA, EN REALIDAD TAMBIEN VEO QUE SIRVE DIRECTAMNTE =  this.peliculasPopulares = [...this.peliculasPopulares, ...resp.results]
+       // this.peliculasPopulares = [...this.peliculasPopulares, ...resp.results]
+    const arrayPeliculasTemporal = [...this.peliculasPopulares, ...resp.results] 
+    this.peliculasPopulares = arrayPeliculasTemporal;
       // console.log(this.peliculasPopulares)
     });
-
-    this.moviesService.getPopulars().subscribe((resp: RespuestaMovieDB) => {
-      console.log('Respuesta para peliculasPopulares en tab1.ts', resp);
-      this.peliculasPopulares = resp.results;
-      // console.log(this.peliculasPopulares)
-    });
-
-
-
   }
 
 }

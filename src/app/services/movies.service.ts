@@ -12,6 +12,9 @@ const apiKey = environment.apiKey;
 })
 export class MoviesService {
 
+  // Propiedad privada para la gestion de las páginas.
+  private popularesPagina = 0;
+
   constructor(private http: HttpClient) {
 
   }
@@ -58,10 +61,15 @@ export class MoviesService {
 
   }
 
+  /* Incoroporo el uso de las paginas con su incremento */
   getPopulars() {
 
+    //dado que empiezo en cero ya empiezo incrementándola.
+    this.popularesPagina++;
     // eso del sort se ve en https://developer.themoviedb.org/reference/discover-movie
-    const query = `/discover/movie?sort_by=popularity.desc`
+    // incorporo la pagina con $page=${this.popularesPagina}
+    // ahora cada vez que se llame nos dará la siguiente página.
+    const query = `/discover/movie?sort_by=popularity.desc&page=${this.popularesPagina}`
 
     return this.ejecutarQuery<RespuestaMovieDB>(query);
   }

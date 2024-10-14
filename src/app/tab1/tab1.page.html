@@ -25,9 +25,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <app-slideshow-pares [peliculasRecientesEnComponentePares]="peliculasPopulares"> </app-slideshow-pares>
-
-
+  <!-- Aqui donde vemos  (eventoCargarMas)="metodoCargarMasEnTab1" ese eventoCargarMas viene 
+  del slideshow-pares.components.ts como un @Output
+  @Output() eventoCargarMas = new EventEmitter();
+  que nos permite que, desde otro sitio escuchemos ese "evento" y , en este caso,
+  llama al metodo metodoCargarMasEnTab1. Pongo estos nombres para que sea mas claro. -->
+  <app-slideshow-pares [peliculasRecientesEnComponentePares]="peliculasPopulares"
+    (eventoCargarMas)="metodoCargarMasEnTab1()">
+  </app-slideshow-pares>
 </ion-content>
 
 
