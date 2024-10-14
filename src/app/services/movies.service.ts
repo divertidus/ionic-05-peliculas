@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActoresPelicula, DetallesPelicula, RespuestaMovieDB } from '../Interfaces/interfaces';
+import { ActoresPelicula, DetallesPelicula, Pelicula, RespuestaMovieDB } from '../Interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 
 
@@ -11,6 +11,7 @@ const apiKey = environment.apiKey;
   providedIn: 'root'
 })
 export class MoviesService {
+
 
   // Propiedad privada para la gestion de las páginas.
   private popularesPagina = 0;
@@ -99,6 +100,13 @@ export class MoviesService {
   getPeliculaActores(idPelicula: number) {
     const query = `/movie/${idPelicula}/credits?a=1`
     return this.ejecutarQuery<ActoresPelicula>(query);
+  }
+
+  getPelicularPorGenero(id: number) {
+
+    const query = `/discover/movie?a=1&with_genres=${id}`
+    return this.ejecutarQuery<RespuestaMovieDB>(query);
+
   }
 
 }
