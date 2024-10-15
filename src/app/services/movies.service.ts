@@ -13,6 +13,7 @@ const apiKey = environment.apiKey;
 export class MoviesService {
 
 
+
   // Propiedad privada para la gestion de las páginas.
   private popularesPagina = 0;
 
@@ -26,7 +27,7 @@ export class MoviesService {
     query = query + `&api_key=${apiKey}&language=es&include_image_language=es`
     // console.log(query) // Para comprobar que la URl está siendo correcta
     console.log("Se realiza busqueda:", query);
-    
+
     return this.http.get<T>(query) //importante aqui la <T> en el return
   }
 
@@ -74,6 +75,11 @@ export class MoviesService {
     const query = `/discover/movie?sort_by=popularity.desc&page=${this.popularesPagina}`
 
     return this.ejecutarQuery<RespuestaMovieDB>(query);
+  }
+
+  getPeliculaPorId(idPelicula: number) {
+    const query = `/find/${idPelicula}?a=1`
+    return this.ejecutarQuery<Pelicula>(query);
   }
 
   getPeliculaDetalles(idPelicula: number) {

@@ -8,6 +8,8 @@ import { addIcons } from 'ionicons';
 import * as todosLosIconos from 'ionicons/icons';
 import { SlideshowPosterComponent } from '../slideshow-poster/slideshow-poster.component';
 import { FormsModule } from '@angular/forms';
+import { StorageService } from 'src/app/services/storage.service';
+
 
 
 
@@ -17,12 +19,59 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   styleUrls: ['./detalle.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [StorageService],
   imports: [ImagenPipe, NgIf, CommonModule, SlideshowPosterComponent, NgFor, FormsModule,
     forwardRef(() => SlideshowPosterComponent)]
 })
 export class DetalleComponent implements OnInit {
 
-  addFavorito() {
+  @Input() idPelicula!: number
+  oculto = 150; // PARA MOSTRAR Y/O OCULTAR MAS TEXTO
+
+  generoElegido!: Genero
+  detallesPelicula: DetallesPelicula = {};
+  actoresPelicula: Cast[] = [];
+  peliculasPorGenero: Pelicula[] = [];
+  pelicula!: Pelicula
+
+  constructor(
+    private moviesService: MoviesService,
+    private modalCtrl: ModalController,
+    private storageService: StorageService) {
+    addIcons(todosLosIconos)
+  }
+
+  ngOnInit() {
+    console.log("Se recibe ID: ", this.idPelicula)
+
+    this.moviesService.getPeliculaDetalles(this.idPelicula)
+      .subscribe(resp => {
+        console.log(resp)
+        this.detallesPelicula = resp;
+      })
+
+
+    this.moviesService.getPeliculaActores(this.idPelicula)
+      .subscribe(resp => {
+        console.log(resp)
+        this.actoresPelicula = resp.cast;
+      })
+
+
+    this.moviesService.getPeliculaPorId(this.idPelicula)
+      .subscribe(resp => {
+        console.log(resp)
+        this.pelicula = resp;
+      })
+
+    const esFavorito = this.storageService.peliculaEnFavoritos(this.detallesPelicula)
+  }
+
+
+  addFavorito(detallesPeliculaRecibida: Pelicula) {
+
+    this.storageService.saveRemovePelicula(detallesPeliculaRecibida);
+    console.log("Se añade a favoritos");
 
   }
 
@@ -47,39 +96,6 @@ export class DetalleComponent implements OnInit {
       //  console.log("click")
       //  console.log(this.oculto)
     }
-  }
-
-
-  @Input() idPelicula!: number
-  oculto = 150; // PARA MOSTRAR Y/O OCULTAR MAS TEXTO
-
-  generoElegido!: Genero
-  detallesPelicula: DetallesPelicula = {};
-  actoresPelicula: Cast[] = [];
-  peliculasPorGenero: Pelicula[] = [];
-
-  constructor(
-    private moviesService: MoviesService,
-    private modalCtrl: ModalController,
-    private changeDetectorRef: ChangeDetectorRef) {
-    addIcons(todosLosIconos)
-  }
-
-  ngOnInit() {
-    console.log("Se recibe ID: ", this.idPelicula)
-
-    this.moviesService.getPeliculaDetalles(this.idPelicula)
-      .subscribe(resp => {
-        console.log(resp)
-        this.detallesPelicula = resp;
-      })
-
-
-    this.moviesService.getPeliculaActores(this.idPelicula)
-      .subscribe(resp => {
-        console.log(resp)
-        this.actoresPelicula = resp.cast;
-      })
   }
 
 
@@ -108,6 +124,15 @@ export class DetalleComponent implements OnInit {
     this.mostrarPeliculasPorGenero = true;
     this.cargarPeliculasPorGenero(genero.id);
 
+  }
+
+  async saveData() {
+    await this.storageService.set('key', 'value');
+  }
+
+  async getData() {
+    const value = await this.storageService.get('key');
+    console.log(value);
   }
 
 
