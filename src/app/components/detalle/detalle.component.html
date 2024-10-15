@@ -4,13 +4,15 @@
     <h1>{{detallesPelicula.title}}</h1>
   </ion-label>
   <img [src]="detallesPelicula.backdrop_path | imagen" *ngIf="detallesPelicula.backdrop_path">
+  <img src="/assets/no-image-banner.jpg" *ngIf="!detallesPelicula.backdrop_path">
 
   <ion-grid>
     <ion-row>
 
       <ion-col size="4" class="poster-detalle-sobre">
         <ion-card class="poster">
-          <img [src]="detallesPelicula.poster_path | imagen" class="poster" *ngIf="detallesPelicula.poster_path">
+          <img class="poster" *ngIf="!detallesPelicula.poster_path" src="/assets/no-image-banner.jpg">
+          <img class="poster" *ngIf="detallesPelicula.poster_path" [src]="detallesPelicula.poster_path | imagen">
         </ion-card>
 
       </ion-col>

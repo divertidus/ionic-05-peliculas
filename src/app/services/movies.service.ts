@@ -25,7 +25,8 @@ export class MoviesService {
 
     query = query + `&api_key=${apiKey}&language=es&include_image_language=es`
     // console.log(query) // Para comprobar que la URl está siendo correcta
-
+    console.log("Se realiza busqueda:", query);
+    
     return this.http.get<T>(query) //importante aqui la <T> en el return
   }
 

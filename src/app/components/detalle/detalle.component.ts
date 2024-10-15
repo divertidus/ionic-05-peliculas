@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef, forwardRef } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { ModalController } from '@ionic/angular';
 import { Cast, DetallesPelicula, Genero, Pelicula } from 'src/app/Interfaces/interfaces';
@@ -17,7 +17,8 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   styleUrls: ['./detalle.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [ImagenPipe, NgIf, CommonModule, SlideshowPosterComponent, NgFor,FormsModule]
+  imports: [ImagenPipe, NgIf, CommonModule, SlideshowPosterComponent, NgFor, FormsModule,
+    forwardRef(() => SlideshowPosterComponent)]
 })
 export class DetalleComponent implements OnInit {
 

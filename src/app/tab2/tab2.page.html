@@ -13,30 +13,43 @@
 
 <ion-content>
 
-  <ion-grid>
+  <ion-grid *ngIf="buscando">
     <ion-row justify-content-center>
       <ion-col class="center-spinner">
         <ion-spinner name="bubbles"></ion-spinner>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <app-slideshow-poster [peliculasRecientesEnComponentePoster]="peliculasBuscadas"></app-slideshow-poster>
+
+  <!--  <app-slideshow-poster [peliculasRecientesEnComponentePoster]="peliculasBuscadas"></app-slideshow-poster> -->
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="6" *ngFor="let pelicula of peliculasBuscadas">
+        <ion-card (click)="mostrarDetalles(pelicula.id)">
+          <img [src]="pelicula.poster_path || '' | imagen">
+          <ion-card-header>
+            <ion-card-subtitle>{{pelicula.release_date}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <h2>{{pelicula.title}}</h2>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 
-  <ion-list>
+  <ion-list *ngIf="peliculasBuscadas.length === 0">
     <ion-list-header>
       <ion-label>Sugerencias</ion-label>
     </ion-list-header>
 
     <ion-item *ngFor="let idea of ideas" (click)="elegirIdea(idea)">
-      <ion-label>{{idea}}</ion-label>
+      <ion-label color="primary">{{idea}}</ion-label>
     </ion-item>
   </ion-list>
-
-
-
-
-
 
 
 
