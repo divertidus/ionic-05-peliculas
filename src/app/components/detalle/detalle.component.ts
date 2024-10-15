@@ -7,6 +7,8 @@ import { NgIf, CommonModule, NgFor } from '@angular/common';
 import { addIcons } from 'ionicons';
 import * as todosLosIconos from 'ionicons/icons';
 import { SlideshowPosterComponent } from '../slideshow-poster/slideshow-poster.component';
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
@@ -15,10 +17,10 @@ import { SlideshowPosterComponent } from '../slideshow-poster/slideshow-poster.c
   standalone: true,
   styleUrls: ['./detalle.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [ImagenPipe, NgIf, CommonModule, SlideshowPosterComponent, NgFor]
+  imports: [ImagenPipe, NgIf, CommonModule, SlideshowPosterComponent, NgFor,FormsModule]
 })
 export class DetalleComponent implements OnInit {
-  
+
   addFavorito() {
 
   }
