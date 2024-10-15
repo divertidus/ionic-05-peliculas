@@ -8,6 +8,7 @@ import { addIcons } from 'ionicons';
 import * as todosLosIconos from 'ionicons/icons';
 import { SlideshowPosterComponent } from '../slideshow-poster/slideshow-poster.component';
 import { FormsModule } from '@angular/forms';
+import { StorageService } from 'src/app/services/storage.service';
 
 
 
@@ -17,13 +18,14 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   styleUrls: ['./detalle.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [StorageService],
   imports: [ImagenPipe, NgIf, CommonModule, SlideshowPosterComponent, NgFor, FormsModule,
     forwardRef(() => SlideshowPosterComponent)]
 })
 export class DetalleComponent implements OnInit {
 
   addFavorito() {
-
+    this.storageService.guardarPelicula(this.detallesPelicula)
   }
 
   swiperOptsActores = {
@@ -61,7 +63,7 @@ export class DetalleComponent implements OnInit {
   constructor(
     private moviesService: MoviesService,
     private modalCtrl: ModalController,
-    private changeDetectorRef: ChangeDetectorRef) {
+    private storageService: StorageService) {
     addIcons(todosLosIconos)
   }
 
