@@ -18,15 +18,19 @@ import { SlideshowPosterComponent } from '../slideshow-poster/slideshow-poster.c
   imports: [ImagenPipe, NgIf, CommonModule, SlideshowPosterComponent, NgFor]
 })
 export class DetalleComponent implements OnInit {
+  
+  addFavorito() {
 
-  swiperOpts = {
+  }
+
+  swiperOptsActores = {
     slidesPerView: 3.2,   // Muestra 1.1 diapositivas
     freeMode: true,       // Activa el modo libre para deslizar sin ajustar
   };
 
   // Getter para convertir el valor booleano a string
   get freeModeString(): string {
-    return this.swiperOpts.freeMode.toString();
+    return this.swiperOptsActores.freeMode.toString();
   }
 
 
@@ -75,13 +79,24 @@ export class DetalleComponent implements OnInit {
       })
   }
 
-  onClick() {
+
+
+  cerrarModal() {
 
     console.log("click en boton del modal")
     this.modalCtrl.dismiss();
   }
 
-
+  cargarPeliculasPorGenero(id: number) {
+    this.moviesService.getPelicularPorGenero(id)
+      .subscribe(resp => {
+        console.log('Obtenido por genero', resp.results);
+        this.peliculasPorGenero = [...resp.results];
+        this.mostrarPeliculasPorGenero = true;
+        // console.log('Películas por género actualizadas:', this.peliculasPorGenero);
+        // this.changeDetectorRef.detectChanges();
+      })
+  }
 
   mostrarPeliculasPorGenero: boolean = false;
 
@@ -92,14 +107,5 @@ export class DetalleComponent implements OnInit {
 
   }
 
-  cargarPeliculasPorGenero(id: number) {
-    this.moviesService.getPelicularPorGenero(id)
-      .subscribe(resp => {
-        console.log('Obtenido por genero', resp.results);
-        this.peliculasPorGenero = [...resp.results];
-        this.mostrarPeliculasPorGenero = true;
-        console.log('Películas por género actualizadas:', this.peliculasPorGenero);
-        this.changeDetectorRef.detectChanges();
-      })
-  }
+
 }
