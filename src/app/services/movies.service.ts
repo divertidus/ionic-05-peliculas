@@ -102,11 +102,16 @@ export class MoviesService {
     return this.ejecutarQuery<ActoresPelicula>(query);
   }
 
-  getPelicularPorGenero(id: number) {
+  getPelicularPorGenero(idGenero: number) {
 
-    const query = `/discover/movie?a=1&with_genres=${id}`
+    const query = `/discover/movie?a=1&with_genres=${idGenero}`
     return this.ejecutarQuery<RespuestaMovieDB>(query);
+  }
 
+  getPeliculaPorSearch(textoQueBuscar: string) {
+
+    const query = `/search/movie?a=1&query=${textoQueBuscar}`
+    return this.ejecutarQuery<RespuestaMovieDB>(query);
   }
 
 }

@@ -1,8 +1,10 @@
 <swiper-container [slidesPerView]="swiperOpts.slidesPerView" [attr.free-mode]="freeModeString">
   <swiper-slide *ngFor="let pelicula of peliculasRecientesEnComponentePoster; let i=index">
     <ion-card (click)="mostrarDetalles(pelicula.id)">
-      <img class="poster" [src]="pelicula.poster_path | imagen" *ngIf="pelicula.poster_path">
+     
+      <img class="poster" *ngIf="!pelicula.poster_path" src="/assets/no-image-banner.jpg" alt="">
+      <img class="poster" *ngIf="pelicula.poster_path" [src]="pelicula.poster_path | imagen" alt="">
     </ion-card>
   </swiper-slide>
 </swiper-container>
-<p *ngIf="peliculasRecientesEnComponentePoster.length === 0">No hay películas para mostrar.</p>
+<p *ngIf="peliculasRecientesEnComponentePoster.length === 0">    Sin resultados</p>

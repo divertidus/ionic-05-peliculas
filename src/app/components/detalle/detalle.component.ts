@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, CUSTOM_ELEMENTS_SCHEMA, ChangeDetectorRef } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { ModalController } from '@ionic/angular';
-import { ActoresPelicula, Cast, DetallesPelicula, Genero, Pelicula, RespuestaMovieDB } from 'src/app/Interfaces/interfaces';
+import { Cast, DetallesPelicula, Genero, Pelicula } from 'src/app/Interfaces/interfaces';
 import { ImagenPipe } from "../../pipes/imagen.pipe";
 import { NgIf, CommonModule, NgFor } from '@angular/common';
 import { addIcons } from 'ionicons';
