@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActoresPelicula, DetallesPelicula, Pelicula, RespuestaMovieDB } from '../Interfaces/interfaces';
+import { ActoresPelicula, DetallesPelicula, Genero, Pelicula, RespuestaGenero, RespuestaMovieDB } from '../Interfaces/interfaces';
 import { environment } from 'src/environments/environment';
 
 
@@ -26,7 +26,7 @@ export class MoviesService {
     query = query + `&api_key=${apiKey}&language=es&include_image_language=es`
     // console.log(query) // Para comprobar que la URl está siendo correcta
     console.log("Se realiza busqueda:", query);
-    
+
     return this.http.get<T>(query) //importante aqui la <T> en el return
   }
 
@@ -77,7 +77,6 @@ export class MoviesService {
   }
 
   getPeliculaDetalles(idPelicula: number) {
-
     const query = `/movie/${idPelicula}?a=1`
     /*  ESO DE a=1 no hace nada. Es para tener
      un argumento vacio para que al no ser el primero el programa le adjunte el resto con &
@@ -90,8 +89,7 @@ export class MoviesService {
        // console.log(query) // Para comprobar que la URl está siendo correcta
    
        return this.http.get<T>(query) //importante aqui la <T> en el return
-     }
- 
+     } 
      nos daria errores sino.*/
 
     return this.ejecutarQuery<DetallesPelicula>(query);
@@ -104,18 +102,24 @@ export class MoviesService {
   }
 
   getPelicularPorGenero(idGenero: number) {
-
     const query = `/discover/movie?a=1&with_genres=${idGenero}`
     return this.ejecutarQuery<RespuestaMovieDB>(query);
   }
 
   getPeliculaPorSearch(textoQueBuscar: string) {
-
     const query = `/search/movie?a=1&query=${textoQueBuscar}`
     return this.ejecutarQuery<RespuestaMovieDB>(query);
   }
 
+
+  generos: Genero[] = []
+  cargarGeneros() {
+    const query = '/genre/movie/list?a=1'
+    return this.ejecutarQuery<RespuestaGenero>(query);
+  }
 }
+
+
 
 /*Respecto a las const de hoy de ultimoDia: 
 explico paso a paso qué hace este fragmento de código:

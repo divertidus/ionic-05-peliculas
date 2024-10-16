@@ -6,20 +6,20 @@ export interface RespuestaMovieDB { //Podemos decir que la respuestas que nos de
 }
 
 export interface Pelicula {
-    adult: boolean;
-    backdrop_path: null;
-    genre_ids: number[];
+    adult?: boolean;
+    backdrop_path?: null | string;
+    genre_ids?: number[];
     id: number;
-    original_language: string;
-    original_title: string;
-    overview: string;
-    popularity: number;
-    poster_path: null | string;
-    release_date: Date;
-    title: string;
-    video: boolean;
-    vote_average: number;
-    vote_count: number;
+    original_language?: string;
+    original_title?: string;
+    overview?: string;
+    popularity?: number;
+    poster_path?: null | string;
+    release_date?: Date;
+    title?: string;
+    video?: boolean;
+    vote_average?: number;
+    vote_count?: number;
 }
 
 export enum OriginalLanguage {
@@ -36,7 +36,7 @@ export interface DetallesPelicula {
     budget?: number;
     genres?: Genero[];
     homepage?: string;
-    id?: number;
+    id: number;
     imdb_id?: string;
     origin_country?: string[];
     original_language?: string;
@@ -63,6 +63,10 @@ export interface ColeccionQuePertenece {
     name: string;
     poster_path: string;
     backdrop_path: string;
+}
+
+export interface RespuestaGenero {
+    genres: Genero[];
 }
 
 export interface Genero {

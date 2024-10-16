@@ -31,7 +31,7 @@ export class DetalleComponent implements OnInit {
   existe = false;
 
   generoElegido!: Genero
-  detallesPelicula: DetallesPelicula = {};
+  detallesPelicula: DetallesPelicula = { id: 0 }; //ESTO HA SIDO CLAVE !!
   actoresPelicula: Cast[] = [];
   peliculasPorGenero: Pelicula[] = [];
 
@@ -55,14 +55,14 @@ export class DetalleComponent implements OnInit {
     }
       */
 
-    this.moviesService.getPeliculaDetalles(this.idPelicula)
+    await this.moviesService.getPeliculaDetalles(this.idPelicula)
       .subscribe(resp => {
         //   console.log(resp)
         this.detallesPelicula = resp;
       })
 
 
-    this.moviesService.getPeliculaActores(this.idPelicula)
+    await this.moviesService.getPeliculaActores(this.idPelicula)
       .subscribe(resp => {
         //   console.log(resp)
         this.actoresPelicula = resp.cast;
