@@ -20,7 +20,9 @@ export class StorageService {
 
   /* Constructor del servicio */
   constructor(private storage: Storage, private toastCtrl: ToastController) {
-    this.init(); // Llamamos al método init cuando se crea una instancia de este servicio
+    this.init();
+    this.cargarFavoritosDesdeStorage()
+    // Llamamos al método init cuando se crea una instancia de este servicio
   }
 
   /* Método para inicializar el almacenamiento */
@@ -82,7 +84,6 @@ export class StorageService {
       }
     }
 
-
     //Si existe, debo excluir la pelicula de mi array
     if (existe) {
       // Esto hace: llama a cada uno de los elementos dentro de peliculasGuardadas. Si la peli.id es difernete de la peliculaRecibida.id 
@@ -102,6 +103,12 @@ export class StorageService {
     //Aprovechamos para incluir un toast
     this.presentToast(mensaje)
 
+    // Voy a hacer que devuelva un boolean con si existe o no para usar esa info si la necesito.
+    // pero mando lo inverso ya que este metodo si existe la borra por lo que para cuando se manda esto
+    // en realidad ya no existe, y viceversa.
+
+    return !existe
+
   }
 
   /*Metodo para sacar un toast. Se ha importado 
@@ -113,14 +120,13 @@ export class StorageService {
   async presentToast(mensaje: string) {
     const toast = await this.toastCtrl.create({
       message: mensaje,
-      duration: 2000, // El toast se mostrará durante 2 segundos
+      duration: 700, // El toast se mostrará durante 2 segundos
       position: 'bottom' // Posición del toast
     });
     await toast.present();
     console.log("deberia salir el toast con el mensaje: ", mensaje);
 
   }
-
   /* Otra forma usando .find
   
         // Utilizamos .find() para buscar si la película ya existe en el array
@@ -135,6 +141,73 @@ export class StorageService {
 
   */
 
+  /* METODO PARA CARGAR LOS FAVORITOS 
+  El cual debe llamarse nada mas inicializar el servicio, simplemente llamaremos al metodo en el constructor
+  */
+
+  async cargarFavoritosDesdeStorage() {
+    const peliculasCargadasDelStorage = await this.storage.get('peliculas');
+    //paso a mi array de peliculas guardadas las que estan en el storage, y si no hay ninguna meto un array vacio.
+    this.peliculasGuardadas = peliculasCargadasDelStorage || [];
+    return this.peliculasGuardadas
+  }
+
+  /*
+  Para esta combrobacion cuidado con el tema del id, suele ser string pero puede que en la bd sea un number. 
+  Podemos cambiarlo haciendo 
+              idPelicula = Number(idPelicula:any)
+  Y una forma de comprobarlo es
+
+        existePelicula(idPelicula) { //Sin tipo aqui, lo toma de any
+              console.log(idPelicula)
+              idPelicula = Number(idPelicula)
+              console.log(idPelicula)
+
+              De esta forma el color cambiará en la consola.Primero será gris y luego azul.
+
+   El metodo regresa una promea que será true si existe o false si no.
+   return (existe) ? true : false;
+
+   Este método está pensado para ajustar el botón de favorito. Por eos no modifica ninguna array.
+   
+  */
+  async existePelicula(idPelicula: any) {
+
+    idPelicula = Number(idPelicula)
+    await this.cargarFavoritosDesdeStorage() //Con el await le digo que espere a que se carguen los favoritos
+    const existe = this.peliculasGuardadas.find(peli => peli.id === idPelicula);
+    return (existe) ? true : false;
+  }
+
+
+  /* Metodos no necesarios
+
+  // Método para guardar datos 
+  public set(key: string, value: any) {
+    return this._storage?.set(key, value);
+    // Guardamos un valor asociado a una clave (key)
+    // El ? es para evitar errores si _storage es null
+  }
+
+  // Método para obtener datos 
+  public get(key: string) {
+    return this._storage?.get(key);
+    // Recuperamos el valor asociado a una clave (key)
+  }
+
+  // Método para eliminar datos 
+  public remove(key: string) {
+    return this._storage?.remove(key);
+    // Eliminamos el valor asociado a una clave (key)
+  }
+
+  // Método para borrar todos los datos //
+  public clear() {
+    return this._storage?.clear();
+    // Borramos todos los datos almacenados
+  }
+
+  */
 
 }
 
