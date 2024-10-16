@@ -28,13 +28,13 @@ export class SlideshowPosterComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
-    console.log('Peliculas recibidas en SlideshowPosterComponent:', this.peliculasRecientesEnComponentePoster);
+   // console.log('Peliculas recibidas en SlideshowPosterComponent:', this.peliculasRecientesEnComponentePoster);
     this.actualizarSwiper();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['peliculasRecientesEnComponentePoster']) {
-      console.log('Películas actualizadas en SlideshowPosterComponent:', this.peliculasRecientesEnComponentePoster);
+     // console.log('Películas actualizadas en SlideshowPosterComponent:', this.peliculasRecientesEnComponentePoster);
       this.actualizarSwiper();
     }
   }
@@ -60,7 +60,7 @@ export class SlideshowPosterComponent implements OnInit {
   }
 
   actualizarSwiper() {
-    console.log('Actualizando Swiper');
+  //  console.log('Actualizando Swiper');
     setTimeout(() => {
       const swiperEl = document.querySelector('swiper-container');
       if (swiperEl) {

@@ -10,16 +10,18 @@
 
   <!--   <app-slideshow-poster [peliculasRecientesEnComponentePoster]='peliculasFavoritas'> </app-slideshow-poster> -->
 
-  <div *ngFor="let genero of generos">
-    <ion-grid fixed>
+  <div *ngFor="let generoYpeli of favoritasPorGeneroGlobal">
+    <ion-grid fixed *ngIf="generoYpeli.peliculas.length>0">
       <ion-row>
+
         <ion-col>
-          <h4>{{genero.name}}</h4>
+          <h4>{{generoYpeli.genero}}</h4>
         </ion-col>
 
       </ion-row>
+      <app-slideshow-poster [peliculasRecientesEnComponentePoster]='generoYpeli.peliculas'> </app-slideshow-poster>
     </ion-grid>
-    <app-slideshow-poster [peliculasRecientesEnComponentePoster]='peliculasFavoritas'> </app-slideshow-poster>
+
 
   </div>
 
