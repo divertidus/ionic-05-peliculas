@@ -25,6 +25,8 @@ import { StorageService } from 'src/app/services/storage.service';
 export class DetalleComponent implements OnInit {
 
   addFavorito() {
+    console.log("metodo addFavorito de detalles.component");
+    
     this.storageService.guardarPelicula(this.detallesPelicula)
   }
 
